@@ -1,11 +1,20 @@
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
-const PORT =5001
+const PORT =3000
 const {MONGOURI} = require('./keys')
 const cors = require('cors');
 const fs = require("fs")
 app.use(express.json())
+const https = require("https")
+
+const key = fs.readFileSync("./private.key")
+const cert = fs.readFileSync("./certificate.crt")
+
+var cred={
+    key,
+    cert
+}
 
 const corsConf = {
     origin: '*',
@@ -26,7 +35,8 @@ mongoose.connection.on('error',(err)=>{
     console.log("err connecting",err)
 })
 
-const file = fs.readFileSync("./41CD30C171E5132D4804BF5CF31C75D4.txt")
+
+
 require("./models/user")
 require("./models/post")
 require("./models/movie")
@@ -63,9 +73,6 @@ app.use(require("./routes/advices"))
 
 
 
-app.get("/.well-known/pki-validation/41CD30C171E5132D4804BF5CF31C75D4.txt",(req,res)=>{
-    res.sendFile("/home/ec2-user/web3S/41CD30C171E5132D4804BF5CF31C75D4.txt")
-})
 
 
 
@@ -90,3 +97,7 @@ app.get('/about',customMiddleware,(req,res)=>{
 app.listen(PORT,()=>{
     console.log("server is running on",PORT)
 })
+
+const httpServer = https.createServer(cred,app)
+
+httpServer.listen(8443)
