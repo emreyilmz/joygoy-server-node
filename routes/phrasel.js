@@ -5,9 +5,13 @@ const Phrasel = mongoose.model("Phrasel");
 const requireLogin = require("../middleware/requireLogin")
 
 router.get("/phrasel",requireLogin, (req, res) => {
+    const page = req.query.from
 
     Phrasel.find({ })
         .select("_id word translate")
+        .skip(page*100)
+        .limit(100)
+
         .then((word) => {
             res.json({ word });
         })
