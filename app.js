@@ -5,11 +5,11 @@ const PORT =3000
 const {MONGOURI} = require('./keys')
 const cors = require('cors');
 const fs = require("fs")
-app.use(express.json())
 const https = require("https")
+app.use(express.json())
 
-const key = fs.readFileSync("./private.key")
-const cert = fs.readFileSync("./certificate.crt")
+const key = fs.readFileSync("home/ec2-user/web3S/private.key")
+const cert = fs.readFileSync("home/ec2-user/web3S/certificate.crt")
 
 var cred={
     key,
@@ -47,6 +47,7 @@ require("./models/grammerItem")
 require("./models/phrasel")
 require("./models/collocations")
 require("./models/advices")
+require("./models/irregular")
 
 
 
@@ -69,6 +70,8 @@ app.use(require("./routes/collocations"))
 app.use(require("./routes/likes"))
 app.use(require("./routes/saves"))
 app.use(require("./routes/advices"))
+app.use(require("./routes/irregular"))
+
 
 
 

@@ -15,7 +15,7 @@ router.get("/word",requireLogin,(req, res) => {
     console.log(req.query.id);
     const page = req.query.page;
     Word.find({ listedBy: req.query.id })
-        .populate("listedBy", "_id name type")
+        .populate("listedBy", "_id name type number")
         .select("_id word translate listedBy")
         /* .skip(page*100)
         .limit(100) */
@@ -26,6 +26,24 @@ router.get("/word",requireLogin,(req, res) => {
             console.log(err);
         });
 });
+
+router.get("/wordpage", (req, res) => {
+    const page = req.query.from;
+
+    Word.find({ listedBy: req.query.id })
+        .populate("listedBy", "_id name type number")
+        .select("_id word translate listedBy")
+        .skip(page*100)
+        .limit(100)
+        .then((word) => {
+            res.json({ word });
+            console.log(word)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
 
 router.get("/word2",requireLogin,(req, res) => {
     //res.send("Home")

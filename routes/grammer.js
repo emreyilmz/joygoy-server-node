@@ -91,7 +91,8 @@ router.post("/search-grammer", (req, res) => {
         .then((posts) => {
             console.log(posts)
             var count = posts.length;
-            res.json({ count, posts });
+            res.json({ count, posts,lists });
+            console.log(lists)
         })
         .catch((err) => {
             console.log(err);
