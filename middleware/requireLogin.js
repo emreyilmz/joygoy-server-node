@@ -12,6 +12,7 @@ module.exports = (req,res,next) => {
     }
 
     const token = authorization.replace("Bearer ","")
+    console.log(token,"fa")
 
     jwt.verify(token,JWT_SECRET,(err,payload)=>{
         if(err){

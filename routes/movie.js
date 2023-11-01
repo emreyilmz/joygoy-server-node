@@ -31,14 +31,26 @@ router.get('/allmovie',requireLogin,(req,res)=>{
     })
 })
 
-router.post("/search-movie",(req, res) => {
-    console.log("girdi",req.body)
+router.post("/search-movie",requireLogin,(req, res) => {
+   
 
     Movie.find({
-        name: new RegExp(" " + req.body.text + " ", "i"),
+        $or:[
+            
+
+        {name: new RegExp(" "+ req.body.text + " ", "i"),},
+
+        {name: new RegExp(" "+ req.body.text+"\\.", "i"),},
+        {name: new RegExp(" "+ req.body.text+"\\,", "i"),},
+
+
+
+
+
+        ]
     })
         .select("_id number name tr movie")
-
+        .limit(250)
         .then((posts) => {
             res.json({ posts });
             console.log(posts)
@@ -49,7 +61,35 @@ router.post("/search-movie",(req, res) => {
         });
 });
 
+router.post("/search-movie-single",requireLogin,(req, res) => {
+   
 
+    Movie.find({
+        $or:[
+            
+
+        {name: new RegExp(" "+ req.body.text + " ", "i"),},
+
+        {name: new RegExp(" "+ req.body.text+"\\.", "i"),},
+        {name: new RegExp(" "+ req.body.text+"\\,", "i"),},
+
+
+
+
+
+        ]
+    })
+        .select("_id number name tr movie")
+        .limit(1)
+        .then((posts) => {
+            res.json({ posts });
+            console.log(posts)
+
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
 
 
 

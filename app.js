@@ -8,8 +8,8 @@ const fs = require("fs")
 const https = require("https")
 app.use(express.json())
 
-const key = fs.readFileSync("home/ec2-user/web3S/private.key")
-const cert = fs.readFileSync("home/ec2-user/web3S/certificate.crt")
+const key = fs.readFileSync("./private.key")
+const cert = fs.readFileSync("./certificate.crt")
 
 var cred={
     key,
@@ -48,6 +48,7 @@ require("./models/phrasel")
 require("./models/collocations")
 require("./models/advices")
 require("./models/irregular")
+require("./models/testuser")
 
 
 

@@ -20,7 +20,7 @@ router.get('/alladvice',requireLogin,(req,res)=>{
 }) 
 
 
-router.post("/search-advice",(req, res) => {
+router.post("/search-advice",requireLogin,(req, res) => {
     console.log("girdi",req.body)
 
     Movie.find({

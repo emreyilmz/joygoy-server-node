@@ -16,7 +16,7 @@ router.get("/irregular", requireLogin,(req, res) => {
 });
 
 
-router.post("/irregular", (req, res) => {
+router.post("/irregular", requireLogin,(req, res) => {
     const { first,	second,	third,	translate,	add,	add2 } = req.body;
 
     if (!first ||  !second || !third ||  !translate  ) {

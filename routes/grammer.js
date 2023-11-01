@@ -17,7 +17,7 @@ router.get("/grammer", requireLogin,(req, res) => {
         });
 });
 
-router.get("/grammerItem", (req, res) => {
+router.get("/grammerItem", requireLogin,(req, res) => {
     Grammer.find()
         .then((lists) => {
             res.json({ lists: lists });
@@ -27,7 +27,7 @@ router.get("/grammerItem", (req, res) => {
         });
 });
 
-router.post("/grammer", (req, res) => {
+router.post("/grammer", requireLogin,(req, res) => {
     const { name, type } = req.body;
 
     if (!name ||  !type ) {
@@ -48,7 +48,7 @@ router.post("/grammer", (req, res) => {
         });
 });
 
-router.post("/grammerItem", (req, res) => {
+router.post("/grammerItem", requireLogin,(req, res) => {
     const { status,grammerBy,regex } = req.body;
 
     if (!status || !grammerBy ||!regex ) {
@@ -70,13 +70,18 @@ router.post("/grammerItem", (req, res) => {
         });
 });
 
-router.post("/search-grammer", (req, res) => {
+router.post("/search-grammer", requireLogin,(req, res) => {
     const { regex,language,id,status } = req.body;
 
     GrammerItem.find({ grammerBy: id,status:status })
         .then((lists) => {
-           
-             Post.find({
+            Post.aggregate([
+                {$match: { name: { $regex: lists[0].regex, $options: 'i' }
+            }},
+                {$sample: {size: 500}}
+                , { $sort :{ ct: -1}}
+            ], )
+/*              Post.find({
         $and: [
             {
                 name: {
@@ -88,7 +93,7 @@ router.post("/search-grammer", (req, res) => {
     })
         .select("_id  name number tr")
         .limit(200)
-        .then((posts) => {
+ */        .then((posts) => {
             console.log(posts)
             var count = posts.length;
             res.json({ count, posts,lists });
@@ -108,3 +113,4 @@ router.post("/search-grammer", (req, res) => {
 
 
 module.exports = router;
+
