@@ -44,4 +44,24 @@ router.post("/phrasel",requireLogin, (req, res) => {
         });
 });
 
+
+router.get("/phrasel-free1453", (req, res) => {
+    /* console.log(req) */
+    console.log(req.query.from)
+    const page = req.query.from
+
+    Phrasel.find({ })
+        .select("_id word translate")
+        .skip(page*100)
+        .limit(100)
+
+        .then((word) => {
+            res.json({ word });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+
 module.exports = router;

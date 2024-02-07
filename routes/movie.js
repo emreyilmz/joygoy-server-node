@@ -93,6 +93,86 @@ router.post("/search-movie-single",requireLogin,(req, res) => {
 
 
 
+router.get('/allmovie-free1453',(req,res)=>{
+    console.log("çalıştı")
+    Movie.aggregate([
+        {$match: {}},
+        {$sample: {size: 500}}
+    ], ).then(posts=>{
+        res.json({posts})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+router.post("/search-movie-free1453",(req, res) => {
+   console.log(req.body.page)
+   console.log(req.body.text)
+
+   const page = req.body.page
+   
+
+    Movie.find({
+        $or:[
+            
+
+        {name: new RegExp(" "+ req.body.text + " ", "i"),},
+
+        {name: new RegExp(" "+ req.body.text+"\\.", "i"),},
+        {name: new RegExp(" "+ req.body.text+"\\,", "i"),},
+
+
+
+
+
+        ]
+    })
+        .select("_id number name tr movie")
+        .limit(5)
+        .skip(page*5)
+        .then((posts) => {
+            console.log(posts)
+            res.json({ posts });
+
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+router.post("/search-movie-single-free1453",(req, res) => {
+   
+
+    Movie.find({
+        $or:[
+            
+
+        {name: new RegExp(" "+ req.body.text + " ", "i"),},
+
+        {name: new RegExp(" "+ req.body.text+"\\.", "i"),},
+        {name: new RegExp(" "+ req.body.text+"\\,", "i"),},
+
+
+
+
+
+        ]
+    })
+        .select("_id number name tr movie")
+        .limit(1)
+        .then((posts) => {
+            res.json({ posts });
+            console.log(posts)
+
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+
+
 
 /* router.get("/allmovie", (req, res) => {
     const page = 1;

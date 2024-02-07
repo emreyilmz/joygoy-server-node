@@ -49,6 +49,10 @@ require("./models/collocations")
 require("./models/advices")
 require("./models/irregular")
 require("./models/testuser")
+require("./models/myList")
+require("./models/myWord")
+
+
 
 
 
@@ -72,6 +76,12 @@ app.use(require("./routes/likes"))
 app.use(require("./routes/saves"))
 app.use(require("./routes/advices"))
 app.use(require("./routes/irregular"))
+app.use(require("./routes/payment"))
+app.use(require("./routes/myList"))
+app.use(require("./routes/myWord"))
+
+
+
 
 
 

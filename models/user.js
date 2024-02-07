@@ -11,6 +11,22 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    referenceCode:{
+        type:String,
+        required:true
+    },
+    parentReferenceCode:{
+        type:String,
+        required:true
+    },
+    pricingPlanReferenceCode:{
+        type:String,
+        required:true
+    },
+    customerReferenceCode:{
+        type:String,
+        required:true
+    },
     likes:[
         {type:ObjectId,ref:"Movie"}
     ],
